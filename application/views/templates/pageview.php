@@ -37,7 +37,7 @@
 							<?php foreach ($tab_header as $key => $val) : ?>
 								<li>
 									<a href="<?= $val['href'] ?>" class="nav-link text-white">
-										<div class="nav-item">
+										<div class="nav-item <?= $this->session->userdata('nav_item') ==  $val['text'] ? 'active' : '' ?>">
 											<div class="icon"><?= $val['icon'] ?></div>
 											<div class="text"><?= $val['text'] ?></div>
 										</div>
@@ -54,8 +54,13 @@
 		<div class="container-fluid my-4 ">
 			{page_content}
 		</div>
-		<footer>
 
+		<footer class="bg-light text-end ">
+			<div class="text-end p-3" style="background-color: rgb(255 255 255 / 20%);">
+				© <?= date('Y') ?> Copyright:
+				<a class="text-dark" href="{base_url}">Lotto </a>
+			</div>
+		</footer>
 		</footer>
 	</div>
 
@@ -76,11 +81,13 @@
 	<script src="{base_url}assets/js/buttons.html5.min.js"></script>
 	<script src="{base_url}assets/js/buttons.print.min.js"></script>
 	<script src="{base_url}assets/js/buttons.colVis.min.js"></script>
-	<script src="{base_url}assets/js/ci_utilities.js?ft=" <?= time() ?>></script>
+	<script src="{base_url}assets/js/ci_utilities.js?ft=" <?= filemtime('assets/js/ci_utilities.js') ?>></script>
 	{another_js}
 	<script>
 		const baseURL = '<?= $base_url ?>';
 		const siteURL = '<?= $site_url ?>';
+		const csrf_token_name = '{csrf_token_name}';
+		const csrf_cookie_name = '{csrf_cookie_name}';
 		$(document).ready(function(e) {
 			$('.select2').select2()
 			setTimeout(() => {

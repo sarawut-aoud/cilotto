@@ -106,3 +106,14 @@ function initializeDataTables(settings) {
     $('#' + settings.nTable.id + '_filter input').css("width", "100px").addClass("radius-15");
     $(".dataTables_length").css("margin-bottom", "0px");
 }
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })

@@ -92,7 +92,7 @@ class Dashboard_model extends CI_Model
             'date' => date('Y-m-d', strtotime($post['date'])),
         );
 
-        $result =  $this->db->get_where("lotto_setting", ['date' => $post->date]);
+        $result =  $this->db->get_where("lotto_date", ['date' => $post->date]);
 
         $msg = 'มีข้อมูลในระบบแล้ว';
 
@@ -100,7 +100,7 @@ class Dashboard_model extends CI_Model
             $set = array(
                 'date' => $post->date,
             );
-            $result = $this->db->insert('lotto_setting', $set);
+            $result = $this->db->insert('lotto_date', $set);
             $this->status = true;
             $msg = 'บันทึกสำเสร็จ';
         }
@@ -113,14 +113,14 @@ class Dashboard_model extends CI_Model
     }
     public function get_date()
     {
-        $result =  $this->db->query("SELECT id,DATE_FORMAT(`date`,'%d-%M-%Y')  as `date`,is_active FROM lotto_date ");
+        $result =  $this->db->query("SELECT id,DATE_FORMAT(`date`,'%d-%M-%Y')  as `date`,DATE_FORMAT(`date`,'%d-%m-%Y')  as `datesort`,is_active FROM lotto_date ");
         $data = [];
-
+        $row = (object)array();
         if ($result->num_rows() > 0) {
             $this->status = true;
-            $i = 0;
-            $data =  $result->result();
+            $data = $result->result();
         }
+
         $json = array(
             'status' => $this->status,
             'data' => $data,

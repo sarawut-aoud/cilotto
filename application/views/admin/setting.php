@@ -29,7 +29,7 @@
                     </div>
                     <div class="card-body card-body-content">
                         <div class="mb-3">
-                            <input type="date" class="form-control" name="" id="date_number" aria-describedby="helpId" placeholder="งวดวันที่">
+                            <input type="date" class="form-control" name="" id="date_number" min="<?= date('Y-m-d'); ?>" aria-describedby="helpId" placeholder="งวดวันที่">
                         </div>
 
                     </div>
@@ -99,17 +99,13 @@
                                     <tr>
                                         <th>วันที่</th>
                                         <th>Action</th>
+                                        <th hidden></th>
                                     </tr>
                                 </thead>
-
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer text-end">
-                        <button type="button" class="btn btn-primary save-data-date">บันทึก</button>
-                        <button type="button" class="btn btn-secondary close-data">ยกเลิก</button>
 
-                    </div>
                 </div>
             </div>
         </div>

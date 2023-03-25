@@ -34,7 +34,7 @@
     <div class="row mb-3 justify-content-center">
         <div class="row">
             <div class="mb-3 col-xxl-12 col-xl-12 col-md-12 col-sm-12">
-                <div class="bg-light border rounded-3 box-content">
+                <div class="bg-light  rounded-3 box-content p-3">
                     <div class="box-container">
                         <?php for ($i = 0; $i <= 99; $i++) : ?>
                             <div class="box-item " data-number="<?= $i <= 9 ? '0' . $i : $i ?>">

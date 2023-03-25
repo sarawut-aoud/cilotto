@@ -98,12 +98,12 @@ const main = {
 							showConfirmButton: false,
 							timer: 1500,
 						}).then(() => {
-							location.reload();
+							main.ajax.loaddata();
 						});
 					} else {
 						Swal.fire({
 							icon: "error",
-							title: "เกิดข้อผิดพลาด",
+							title: results.data,
 							showConfirmButton: false,
 							timer: 1500,
 						});
@@ -137,8 +137,8 @@ const main = {
 								title: "บันทึกสำเร็จ",
 								showConfirmButton: false,
 								timer: 1500,
-							}).then(() => {
-								location.reload();
+							}).then(async () => {
+								main.methods.setdata();
 							});
 						} else {
 							Swal.fire({
@@ -179,22 +179,44 @@ const main = {
 		setTable: async (data) => {
 			data.forEach((ev, i) => {
 				main.data.table.row
-					.add([ev.date, main.methods.options(ev.is_active)])
+					.add([
+						ev.date,
+						main.methods.options(ev.is_active),
+						main.methods.hidden(ev.datesort),
+					])
+					.column(0)
+					.order("desc")
 					.draw(false);
 			});
+			$(".hidden-tr").each((index, ev) => {
+				$(ev).closest('td').attr('hidden')
+			});
+		},
+		hidden: (data) => {
+			return `<div class="hidden-tr">${data}</div>`;
 		},
 		options: (is_active) => {
 			let action = "";
 			if (is_active == 0) {
 				action = `<div class="setdate checkdate btn-setdate">
-                    <div class="icon"><i class="fa-regular fa-circle-check"></i></div>
+							<div class="setdate-item">
+							<div class="icon"><i class="fa-regular fa-circle-check"></i></div>
+							</div>
+                    	
                   </div>`;
 			} else {
 				action = `<div class="setdate checkdate">
+				<div class="setdate-item">
                     <div class="icon"> <i class="fa-solid fa-circle-check"></i></div>
+					</div>
                 </div>`;
 			}
 			return action;
+		},
+		setdata: async () => {
+			await main.ajax.get_date();
+			await main.ajax.loaddata();
+			await main.methods.setTable(main.data.dataDate);
 		},
 	},
 	async init() {
