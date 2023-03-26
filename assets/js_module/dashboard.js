@@ -184,11 +184,16 @@ const main = {
 				},
 				success: (results) => {
 					if (results.status) {
-						
-					}else{
-						
+						Toast.fire({
+							icon: "success",
+							title: results.msg,
+						});
+					} else {
+						Toast.fire({
+							icon: "error",
+							title: results.msg,
+						});
 					}
-					
 				},
 			});
 		},
@@ -248,13 +253,35 @@ const main = {
 		$(document).on("click", ".setdate ", (e) => {
 			let obj = $(e.target).closest(".setdate");
 			let id = obj.data("id");
+			let item = obj.find(".setdate-item");
+			$(".setdate-item").not(obj).removeClass("active");
+			$(".setdate-item").not(obj).find(".icon").html('<i class="fa-regular fa-circle-check"></i>');
+
+			if (item.hasClass("active")) {
+				item.removeClass("active");
+				item.find(".icon").html('<i class="fa-regular fa-circle-check"></i>');
+			} else {
+				item.addClass("active");
+				item.find(".icon").html('<i class="fa-solid fa-circle-check"></i>');
+				
+			}
 			this.ajax.setdate(id);
 		});
 	},
 };
 $(document).ready(function () {
 	main.init();
-
+	let Toast = Swal.mixin({
+		toast: true,
+		position: "top-end",
+		showConfirmButton: false,
+		timer: 1500,
+		timerProgressBar: true,
+		didOpen: (toast) => {
+			toast.addEventListener("mouseenter", Swal.stopTimer);
+			toast.addEventListener("mouseleave", Swal.resumeTimer);
+		},
+	});
 	$("#datatable")
 		.DataTable({
 			responsive: true,

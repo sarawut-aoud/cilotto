@@ -128,4 +128,28 @@ class Dashboard_model extends CI_Model
         );
         return  $json;
     }
+    public function setdate($post)
+    {
+        $post = (object)array(
+            'id' => $post['dateid'],
+        );
+        $msg = 'Error';
+
+        $active = $this->db->get_where('lotto_date', ['id' => $post->id])->row('is_active');
+        
+        $this->db->set('is_active', $active == 1 ? 0 : 1);
+        $this->db->where('id', $post->id);
+        $rs = $this->db->update('lotto_date');
+        if ($rs) {
+            $this->status = true;
+            $msg = 'Success';
+            $this->db->query("UPDATE lotto_date SET is_active = 0 WHERE id != ?", [$post->id]);
+        }
+        $json = array(
+            'status' => $this->status,
+            'msg' => $msg,
+            'code' => $this->code,
+        );
+        return  $json;
+    }
 }

@@ -75,4 +75,10 @@ class Dashboard extends MY_Controller
         $result = $this->dashboard->get_date($post);
         echo json_encode($result);
     }
+    public function setdate()
+    {
+        $post = $this->input->post();
+        $result = $this->dashboard->setdate($post);
+        echo json_encode($result);
+    }
 }
