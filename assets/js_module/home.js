@@ -31,9 +31,27 @@ const home = {
 				},
 			});
 		},
+		getDate: async () => {
+			await $.ajax({
+				type: "get",
+				dataType: "json",
+				url: site_url("Dashboard/getDate"),
+				success: (results) => {
+					if (results.status) {
+						let data = results.data;
+						data.forEach((e, i) => {
+							if (e.is_active == 1) {
+								$(".content .content-date .text").text(e.date);
+							}
+						});
+					}
+				},
+			});
+		},
 	},
 	init() {
 		this.ajax.loaddata();
+		this.ajax.getDate();
 		$(document).on("click", ` .btnList`, (e) => {
 			let obj = $(e.target).closest(` .btnList`);
 			if (obj.hasClass("active") === false) {

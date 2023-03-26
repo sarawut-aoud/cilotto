@@ -174,42 +174,51 @@ const main = {
 				},
 			});
 		},
+		setdate: async (id) => {
+			await $.ajax({
+				type: "POST",
+				dataType: "json",
+				url: site_url("Dashboard/setdate"),
+				data: {
+					dateid: id,
+				},
+				success: (results) => {
+					if (results.status) {
+						
+					}else{
+						
+					}
+					
+				},
+			});
+		},
 	},
 	methods: {
 		setTable: async (data) => {
 			data.forEach((ev, i) => {
 				main.data.table.row
-					.add([
-						ev.date,
-						main.methods.options(ev.is_active),
-						main.methods.hidden(ev.datesort),
-					])
-					.column(0)
-					.order("desc")
+					.add([ev.date, main.methods.options(ev)])
 					.draw(false);
-			});
-			$(".hidden-tr").each((index, ev) => {
-				$(ev).closest('td').attr('hidden')
 			});
 		},
 		hidden: (data) => {
 			return `<div class="hidden-tr">${data}</div>`;
 		},
-		options: (is_active) => {
+		options: (data) => {
 			let action = "";
-			if (is_active == 0) {
-				action = `<div class="setdate checkdate btn-setdate">
+			if (data.is_active == 0) {
+				action = `<div class="setdate checkdate btn-setdate" data-id="${data.id}">
 							<div class="setdate-item">
-							<div class="icon"><i class="fa-regular fa-circle-check"></i></div>
+								<div class="icon"><i class="fa-regular fa-circle-check"></i></div>
 							</div>
                     	
                   </div>`;
 			} else {
-				action = `<div class="setdate checkdate">
-				<div class="setdate-item">
-                    <div class="icon"> <i class="fa-solid fa-circle-check"></i></div>
-					</div>
-                </div>`;
+				action = `<div class="setdate checkdate btn-setdate" data-id="${data.id}">
+							<div class="setdate-item active">
+								<div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+							</div>
+                		</div>`;
 			}
 			return action;
 		},
@@ -235,6 +244,11 @@ const main = {
 		});
 		$(document).on("click", ".save-data-date", (e) => {
 			this.ajax.savedate();
+		});
+		$(document).on("click", ".setdate ", (e) => {
+			let obj = $(e.target).closest(".setdate");
+			let id = obj.data("id");
+			this.ajax.setdate(id);
 		});
 	},
 };

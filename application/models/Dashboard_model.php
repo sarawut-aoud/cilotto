@@ -113,7 +113,7 @@ class Dashboard_model extends CI_Model
     }
     public function get_date()
     {
-        $result =  $this->db->query("SELECT id,DATE_FORMAT(`date`,'%d-%M-%Y')  as `date`,DATE_FORMAT(`date`,'%d-%m-%Y')  as `datesort`,is_active FROM lotto_date ");
+        $result =  $this->db->query("SELECT id,DATE_FORMAT(`date`,'%d-%M-%Y')  as `date`,DATE_FORMAT(`date`,'%d')  as `datesort`,DATE_FORMAT(`date`,'%m')  as `msort`,DATE_FORMAT(`date`,'%Y')  as `ysort`,is_active FROM lotto_date ORDER BY msort ASC, ysort ASC , datesort ASC;");
         $data = [];
         $row = (object)array();
         if ($result->num_rows() > 0) {

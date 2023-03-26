@@ -99,7 +99,6 @@
                                     <tr>
                                         <th>วันที่</th>
                                         <th>Action</th>
-                                        <th hidden></th>
                                     </tr>
                                 </thead>
                             </table>
