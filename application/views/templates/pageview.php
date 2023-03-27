@@ -81,13 +81,11 @@
 	<script src="{base_url}assets/js/buttons.html5.min.js"></script>
 	<script src="{base_url}assets/js/buttons.print.min.js"></script>
 	<script src="{base_url}assets/js/buttons.colVis.min.js"></script>
-	<script src="{base_url}assets/js/ci_utilities.js?ft=" <?= filemtime('assets/js/ci_utilities.js') ?>></script>
-	{another_js}
 	<script>
-		const baseURL = '<?= $base_url ?>';
-		const siteURL = '<?= $site_url ?>';
-		const csrf_token_name = '{csrf_token_name}';
-		const csrf_cookie_name = '{csrf_cookie_name}';
+		var baseURL = '<?= $base_url ?>';
+		var siteURL = '<?= $site_url ?>';
+		var csrf_token_name = '{csrf_token_name}';
+		var csrf_cookie_name = '{csrf_cookie_name}';
 		$(document).ready(function(e) {
 			$('.select2').select2()
 			setTimeout(() => {
@@ -97,6 +95,9 @@
 			}, 1000);
 		})
 	</script>
+	<script src="{base_url}assets/js/ci_utilities.js?ft=" <?= filemtime('assets/js/ci_utilities.js') ?>></script>
+	{another_js}
+
 
 
 </body>

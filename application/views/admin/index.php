@@ -56,11 +56,11 @@
                     <div class="row w-100">
                         <div class="mb-3">
                             <label for="" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                            <input type="text" class="form-control" name="" id="name" aria-describedby="helpId" placeholder="">
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Phone</label>
-                            <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                            <input type="text" class="form-control" name="" id="phone" aria-describedby="helpId" placeholder="">
                         </div>
                         <div class="row text-center">
                             <div class="mb-3 ">

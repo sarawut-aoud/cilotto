@@ -255,7 +255,10 @@ const main = {
 			let id = obj.data("id");
 			let item = obj.find(".setdate-item");
 			$(".setdate-item").not(obj).removeClass("active");
-			$(".setdate-item").not(obj).find(".icon").html('<i class="fa-regular fa-circle-check"></i>');
+			$(".setdate-item")
+				.not(obj)
+				.find(".icon")
+				.html('<i class="fa-regular fa-circle-check"></i>');
 
 			if (item.hasClass("active")) {
 				item.removeClass("active");
@@ -263,10 +266,10 @@ const main = {
 			} else {
 				item.addClass("active");
 				item.find(".icon").html('<i class="fa-solid fa-circle-check"></i>');
-				
 			}
 			this.ajax.setdate(id);
 		});
+		
 	},
 };
 $(document).ready(function () {

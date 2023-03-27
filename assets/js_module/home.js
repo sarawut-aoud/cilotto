@@ -48,8 +48,24 @@ const home = {
 				},
 			});
 		},
+		saveData: async () => {
+			await $.ajax({
+				type: "POST",
+				dataType: "json",
+				data: {
+					number: $(".content-number .text").text(),
+					name: $("#name").val(),
+					phone: $("#phone").val(),
+				},
+				url: site_url("Dashboard/savedata"),
+				success: (results) => {
+					if (results.status) {
+					}
+				},
+			});
+		},
 	},
-	init() {
+	async init() {
 		this.ajax.loaddata();
 		this.ajax.getDate();
 		$(document).on("click", ` .btnList`, (e) => {
@@ -73,8 +89,9 @@ const home = {
 			$(".content-number .text").text("N/A");
 			this.data.number = "";
 		});
+		$(document).on("click", "#savedata", (e) => {
+			this.ajax.saveData();
+		});
 	},
 };
-$(document).ready(function () {
-	home.init();
-});
+home.init();
