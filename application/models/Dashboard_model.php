@@ -158,25 +158,108 @@ class Dashboard_model extends CI_Model
             'number' => $post['number'],
             'name' => $post['name'],
             'phone' => $post['phone'],
+            'date' => date('Y-m-d', strtotime($post['date']))
         );
 
-        $data = array(
-            'number' => $post->number,
-            'name' => $post->name,
-            'phone' => $post->phone,
-        );
-        $msg = 'Error';
+        if ($post->number == 'N/A') {
+            $msg = 'Error';
+        } else {
+            $this->db->insert('lotto_personal', ['fname' => $post->name, 'phone' => $post->phone]);
+            $last_id = $this->db->insert_id();
 
-        $rs = $this->db->insert('lotto_data', $data);
-        if ($rs) {
-            $this->status = true;
-            $msg = 'Success';
+            $data = array(
+                'number' => $post->number,
+                'person_id' =>  $last_id,
+                'lot_date' => $post->date
+            );
+
+
+            $rs = $this->db->insert('lotto_pay', $data);
+            if ($rs) {
+                $this->status = true;
+                $msg = 'Success';
+            }
         }
+
         $json = array(
             'status' => $this->status,
             'msg' => $msg,
             'code' => $this->code,
         );
         return  $json;
+    }
+    public function get_number($post)
+    {
+        $post = (object)array(
+            'date' => date('Y-m-d', strtotime($post['date'])),
+        );
+        $number = 100;
+        $data = [];
+        for ($i = 0; $i < $number; $i++) {
+            $this->status = true;
+            $result = $this->db->query("SELECT t1.*,CAST(number as UNSIGNED) as number_chk  FROM lotto_pay t1 
+            WHERE CAST(t1.number as UNSIGNED) = ? 
+            AND lot_date=DATE(?) ", [$i, $post->date]);
+
+            $data[$i]['number'] = $i;
+            if ($result->num_rows() > 0 && $i == $result->row('number_chk')) {
+                $res = $result->row();
+                $data[$i] = $res;
+                $data[$i]->number = $res->number_chk;
+            }
+        }
+        $json = array(
+            'status' => $this->status,
+            'data' => $data,
+            'code' => $this->code,
+        );
+        return $json;
+    }
+    public function get_numberById($post)
+    {
+        $data = [];
+
+        $result = $this->db->query("SELECT t1.*,t2.fname ,t2.phone FROM lotto_pay t1 
+                                    LEFT JOIN lotto_personal t2 ON t2.id = t1.person_id 
+                                    WHERE t1.id = ?
+                                    ", [$post['id']]);
+
+        if ($result->num_rows() > 0) {
+            $data = $result->row();
+            $this->status = true;
+        }
+
+        $json = array(
+            'status' => $this->status,
+            'data' => $data,
+            'code' => $this->code,
+        );
+        return $json;
+    }
+    public function get_report($post)
+    {
+
+        $data = [];
+        $sql = "SELECT t1.*, DATE_FORMAT(t1.lot_date,'%d-%M-%Y') as lot_date ,t2.fname ,t2.phone FROM lotto_pay t1 
+        LEFT JOIN lotto_personal t2 ON t2.id = t1.person_id ";
+
+        if ($post['date']) {
+            $date = date('Y-m-d', strtotime($post['date']));
+            $sql .= " WHERE lot_date = '$date'";
+        }
+
+        $result = $this->db->query($sql);
+
+        if ($result->num_rows() > 0) {
+            $data = $result->result();
+            $this->status = true;
+        }
+
+        $json = array(
+            'status' => $this->status,
+            'data' => $data,
+            'code' => $this->code,
+        );
+        return $json;
     }
 }

@@ -132,7 +132,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-hover table-bordered" style="width: 100%;">
+                            <table id="datatable" class="table table-hover table-bordered " style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>ชื่อ</th>
@@ -140,15 +140,7 @@
                                         <th>งวดวันที่</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php for ($i = 0; $i <= 10; $i++) : ?>
-                                        <tr class="">
-                                            <td>กหฟกหฟกกฟหกฟกฟห</td>
-                                            <td><?= $i ?></td>
-                                            <td><?= date('d-M-Y') ?></td>
-                                        </tr>
-                                    <?php endfor; ?>
-                                </tbody>
+
                             </table>
                         </div>
                     </div>

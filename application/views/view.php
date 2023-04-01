@@ -9,7 +9,7 @@
                             <div class="price">50 .-</div>
                         </div>
                         <div class="content-date">
-                            <div class="text">1/3/2566</div>
+                            <div class="text"><?= date('d-M-Y') ?></div>
                         </div>
                     </div>
                 </div>

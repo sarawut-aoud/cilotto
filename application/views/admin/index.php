@@ -10,7 +10,7 @@
                             <div class="price">50 .-</div>
                         </div>
                         <div class="content-date">
-                            <div class="text">1/3/2566</div>
+                            <div class="text"><?= date('d-M-Y') ?></div>
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@
                         <?php for ($i = 0; $i <= 99; $i++) : ?>
                             <div class="box-item btnList " data-number="<?= $i <= 9 ? '0' . $i : $i ?>">
                                 <div class="box-item-image ">
-                                    <img src="<?=base_url('assets/images/Sold-Out-PNG.png')?>" alt="">
+                                    <img src="<?= base_url('assets/images/Sold-Out-PNG.png') ?>" alt="">
                                 </div>
                                 <div class="box-item-tool"></div>
                                 <div class="box-item-number"><?= $i <= 9 ? '0' . $i : $i ?></div>

@@ -87,4 +87,22 @@ class Dashboard extends MY_Controller
         $result = $this->dashboard->savedata($post);
         echo json_encode($result);
     }
+    public function get_number()
+    {
+        $get = $this->input->get();
+        $result = $this->dashboard->get_number($get);
+        echo json_encode($result);
+    }
+    public function get_numberById()
+    {
+        $post = $this->input->post();
+        $result = $this->dashboard->get_numberById($post);
+        echo json_encode($result);
+    }
+    public function get_report()
+    {
+        $post = $this->input->post();
+        $result = $this->dashboard->get_report($post);
+        echo json_encode($result);
+    }
 }

@@ -55,6 +55,7 @@
     border-radius: 11px;
     position: relative;
     box-shadow: 0 0 1px 1px #4e4e4e;
+    cursor: pointer;
 }
 
 
@@ -79,6 +80,7 @@
     display: none;
     transform: rotate(8deg);
     position: absolute;
+    cursor: pointer;
 }
 
 .box-item.active .box-item-image {

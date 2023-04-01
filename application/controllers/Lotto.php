@@ -20,6 +20,8 @@ class Lotto extends MY_Controller
 	}
 	public function index()
 	{
+		$this->another_js .= '<script src="' . base_url('assets/js_module/view.js?ft=') . time() . '"> </script>';
+
 		$this->data['tab_header'] = array(
 			array('href' => base_url('Lotto/login'), 'icon' => '<i class="fa-solid fa-right-to-bracket"></i>', 'text' => 'Login'),
 			// array('href' => '#', 'icon' => '<i class="fa-solid fa-table-columns"></i>', 'text' => 'Dashboard'),
@@ -28,7 +30,7 @@ class Lotto extends MY_Controller
 	}
 	public function login()
 	{
-		
+
 		$this->another_js = '<script src="' . base_url('assets/js_module/login.js?ft=') . time() . '"> </script>';
 		$this->renderview('login');
 	}

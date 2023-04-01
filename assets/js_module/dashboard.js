@@ -1,7 +1,9 @@
 const main = {
 	data: {
 		number: "",
-		dataDate: "",
+		dataTable: null,
+		dateDate: [],
+		datareport: [],
 		table: null,
 	},
 	methods: {
@@ -165,9 +167,9 @@ const main = {
 					if (results.data.length > 0) {
 						let data = results.data;
 
-						main.data.dataDate = results.data;
+						main.data.dateDate = results.data;
 						data.forEach((el, index) => {
-							item += `<option value="${el.id}" >${el.date}</option>`;
+							item += `<option value="${el.date}" >${el.date}</option>`;
 						});
 					}
 					$("#date-select").html(item);
@@ -197,6 +199,22 @@ const main = {
 				},
 			});
 		},
+		get_dataTable: async (date) => {
+			await $.ajax({
+				type: "post",
+				dataType: "json",
+				data: {
+					date: date,
+				},
+				url: site_url("Dashboard/get_report"),
+				success: (results) => {
+					main.data.datareport = [];
+					if (results.status) {
+						main.data.datareport = results.data;
+					}
+				},
+			});
+		},
 	},
 	methods: {
 		setTable: async (data) => {
@@ -205,6 +223,15 @@ const main = {
 					.add([ev.date, main.methods.options(ev)])
 					.draw(false);
 			});
+		},
+		setTablereport: async (data) => {
+			if (data.length > 0) {
+				data.forEach((ev, i) => {
+					main.data.dataTable.row
+						.add([ev.fname, ev.number, ev.lot_date])
+						.draw(false);
+				});
+			}
 		},
 		hidden: (data) => {
 			return `<div class="hidden-tr">${data}</div>`;
@@ -228,9 +255,13 @@ const main = {
 			return action;
 		},
 		setdata: async () => {
+			main.data.dataTable.clear().draw();
+			main.data.table.clear().draw();
 			await main.ajax.get_date();
 			await main.ajax.loaddata();
-			await main.methods.setTable(main.data.dataDate);
+			await main.methods.setTable(main.data.dateDate);
+			await main.ajax.get_dataTable("");
+			await main.methods.setTablereport(main.data.datareport);
 		},
 	},
 	async init() {
@@ -238,9 +269,23 @@ const main = {
 			responsive: true,
 			autoWidth: true,
 		});
+		this.data.dataTable = $("#datatable").DataTable({
+			responsive: true,
+			autoWidth: true,
+			dom: "Bfrtip",
+			buttons: ["copy", "excel", "pdf"],
+		});
+		this.data.dataTable
+			.buttons()
+			.container()
+			.appendTo($(".col-sm-6:eq(0)", this.data.dataTable.table().container()));
+		// this.data.dataTable =
 		await this.ajax.get_date();
 		await this.ajax.loaddata();
-		await this.methods.setTable(this.data.dataDate);
+		await this.methods.setTable(this.data.dateDate);
+
+		await this.ajax.get_dataTable("");
+		await this.methods.setTablereport(this.data.datareport);
 
 		$(document).on("click", ".save-data", (e) => {
 			let obj = $(e.target).closest(".save-data");
@@ -269,23 +314,30 @@ const main = {
 			}
 			this.ajax.setdate(id);
 		});
-		
+
+		$(document).on("change", "#date-select", async (e) => {
+			let date = $(e.target).val();
+			this.data.dataTable.clear().draw();
+			await this.ajax.get_dataTable(date);
+			await this.methods.setTablereport(main.data.datareport);
+		});
 	},
 };
+
 $(document).ready(function () {
 	main.init();
 	let Toast = Swal.mixin({
 		toast: true,
 		position: "top-end",
 		showConfirmButton: false,
-		timer: 1500,
+		timer: 500,
 		timerProgressBar: true,
 		didOpen: (toast) => {
 			toast.addEventListener("mouseenter", Swal.stopTimer);
 			toast.addEventListener("mouseleave", Swal.resumeTimer);
 		},
 	});
-	$("#datatable")
+	$(".datatable")
 		.DataTable({
 			responsive: true,
 			lengthChange: false,
