@@ -26,4 +26,5 @@ class View extends MY_Controller
         $result = $this->dashboard->get_date($post);
         echo json_encode($result);
     }
+    
 }

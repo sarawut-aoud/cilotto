@@ -51,7 +51,7 @@ const view = {
 				type: "GET",
 				dataType: "json",
 				data: {
-					date: $(".content .content-date").text(),
+					date: $(".content .content-date .text").text(),
 				},
 				url: site_url("View/get_number"),
 				success: (results) => {
@@ -79,6 +79,23 @@ const view = {
 				},
 			});
 		},
+		getDate: async () => {
+			await $.ajax({
+				type: "get",
+				dataType: "json",
+				url: site_url("View/getDate"),
+				success: (results) => {
+					if (results.status) {
+						let data = results.data;
+						data.forEach((e, i) => {
+							if (e.is_active == 1) {
+								$(".content .content-date .text").text(e.date);
+							}
+						});
+					}
+				},
+			});
+		},
 	},
 	methods: {
 		setnumber: (number) => {
@@ -93,6 +110,7 @@ const view = {
 	},
 	async init() {
 		await this.ajax.loaddata();
+		await this.ajax.getDate();
 		await this.ajax.get_number();
 	},
 };

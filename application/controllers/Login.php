@@ -62,11 +62,11 @@ class Login extends MY_Controller
     private function get_user($post)
     {
 
-        $result = $this->db->query("SELECT * FROM db_lotto.users WHERE username = ? OR mobile = ? ", [$post->username, $post->username]);
+        $result = $this->db->query("SELECT * FROM users WHERE username = ? OR mobile = ? ", [$post->username, $post->username]);
         $msg = 'Username ไม่ถูกต้อง';
         if ($result->num_rows() > 0) {
             $username = $result->row('username');
-            $res = $this->db->get_where(' db_lotto.users', ['username' => $username]);
+            $res = $this->db->get_where('users', ['username' => $username]);
             $pass = hash_hmac("sha256", $post->password, $this->key);
 
             if (password_verify($pass,  $res->row('password'))) {
